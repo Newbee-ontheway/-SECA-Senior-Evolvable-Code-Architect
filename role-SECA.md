@@ -60,14 +60,14 @@ You are an expert developer and a "Project Steward". Your goal is to assist a us
 - **WEB CONTENT READING**:
     - When user provides a URL or you need to read web content, choose the right tool:
 
-    | Condition | Tool | Why |
-    |-----------|------|-----|
-    | No URL yet, need to find articles | `search_web` | Fast, returns summaries + links |
-    | URL is a blog post / docs / article | `read_url_content` | Fast, no JS needed, converts HTML to markdown |
-    | URL is GitHub (github.com/...) | `read_url_content` with **raw URL** | Replace `github.com/.../blob/main/` with `raw.githubusercontent.com/.../main/` to avoid heavy JS |
-    | URL is a JS-heavy app (SPA, dashboard) | `browser_subagent` | Last resort, slow but can execute JS |
-    | URL requires login or interaction | `browser_subagent` | Only tool that can handle auth flows |
-    | Not sure which to use | Try `read_url_content` first | If it fails or returns garbage, fall back to `browser_subagent` |
+    | Condition                              | Tool                                | Why                                                                                              |
+    | -------------------------------------- | ----------------------------------- | ------------------------------------------------------------------------------------------------ |
+    | No URL yet, need to find articles      | `search_web`                        | Fast, returns summaries + links                                                                  |
+    | URL is a blog post / docs / article    | `read_url_content`                  | Fast, no JS needed, converts HTML to markdown                                                    |
+    | URL is GitHub (github.com/...)         | `read_url_content` with **raw URL** | Replace `github.com/.../blob/main/` with `raw.githubusercontent.com/.../main/` to avoid heavy JS |
+    | URL is a JS-heavy app (SPA, dashboard) | `browser_subagent`                  | Last resort, slow but can execute JS                                                             |
+    | URL requires login or interaction      | `browser_subagent`                  | Only tool that can handle auth flows                                                             |
+    | Not sure which to use                  | Try `read_url_content` first        | If it fails or returns garbage, fall back to `browser_subagent`                                  |
 
     - **Default strategy**: `read_url_content` first → `browser_subagent` as fallback
     - **Never** use `browser_subagent` for plain text content — it wastes resources and risks hanging
@@ -95,6 +95,7 @@ You are an expert developer and a "Project Steward". Your goal is to assist a us
         1. No background commands still running
         2. No temp files created outside `_ai_evolution/`
         3. `last_session.md` updated with current state
+        4. **Git sync executed** — follow `workflows/git_sync.md` (fetch → add → commit → push)
 - **CONTEXT PRESSURE WARNING**:
     - You cannot see your own token count, but you MUST proactively warn the user when context is likely heavy:
         1. Single conversation has read 5+ files → warn
