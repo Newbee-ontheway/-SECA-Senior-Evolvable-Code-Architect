@@ -1,0 +1,19 @@
+# ============================================
+# _ai_evolution Git Ignore Rules
+# ============================================
+
+# Project-specific state -- not portable
+last_session.md
+
+# Python cache
+__pycache__/
+*.pyc
+
+# OS junk
+Thumbs.db
+.DS_Store
+
+# Editor temp files
+*.swp
+*.swo
+*~
