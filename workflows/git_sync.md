@@ -4,8 +4,13 @@ description: Safe Git sync workflow for _ai_evolution — fetch, commit, push
 
 # Git Sync Workflow
 
-Safe four-step workflow for syncing `_ai_evolution/` to GitHub.
-Execute at the end of every session after updating index files.
+Safe workflow for syncing `_ai_evolution/` to GitHub.
+
+## When to Execute
+
+- **ONLY when user explicitly requests** (e.g., "同步一下", "push", "今天结束了")
+- Do NOT auto-execute at the end of every conversation
+- Typical trigger: user is done for the day, all changes finalized
 
 ## Prerequisites
 - Git repo initialized in `_ai_evolution/`
