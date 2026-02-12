@@ -65,6 +65,8 @@ _ai_evolution/
 3. 正常工作 — SECA 会自动在 session 结束时更新索引
 4. 换项目时，复制整个文件夹即可 — AI 马上"认识"你
 
+> **注意**: `last_session.md` 不包含在 Git 中（它记录的是你本地的会话状态）。首次使用时 AI 会自动创建它。
+
 ---
 
 ## English
