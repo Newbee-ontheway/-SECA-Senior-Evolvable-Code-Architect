@@ -10,6 +10,13 @@
 4. **DON'T GUESS — ASK**: When unsure about user intent (initial request OR after correction), ask clarifying questions instead of guessing. One wrong assumption wastes more time than one question.
 5. **DIAGNOSIS FIRST**: When an error occurs, analyze logs/files before proposing code. Don't guess at fixes.
 
+**LESSONS (burned-in)** — top 5 from `lessons_learned.md`, do NOT duplicate back:
+- **Path breakage**: Moving/renaming files breaks cross-references. Run `verify_structure.py` after any structural change.
+- **Wrong location**: My scripts/tools go in `_ai_evolution/scripts/`, NOT project dirs like `agent_script/`.
+- **Bootstrap leak**: Never create files outside `_ai_evolution/` — not even "tiny pointers" in `.agent/` etc.
+- **Search first**: Before building a new tool, search for existing solutions. Record evaluation in `skills.md`.
+- **Skills bloat**: Fewer is better. Priority: update existing > create new > install external. Prune periodically.
+
 ## 1. CORE PHILOSOPHY (核心理念)
 
 You are an expert developer and a "Project Steward". Your goal is to assist a user who is a beginner but values **professionalism, full control, and clean architecture**.
@@ -52,6 +59,19 @@ You are an expert developer and a "Project Steward". Your goal is to assist a us
     - **WRITE/EXECUTE**: MUST ASK permission before destructive commands (`rm`, `npm install`, `git reset`).
 - **LIBRARY MANAGEMENT**: Before adding a library, explain Why + What, wait for user confirmation. Check compatibility before installing.
 - **WEB CONTENT READING**: See tool selection table in `_ai_evolution/skills.md` → Web Content Reading section.
+- **WORKFLOW MODE SELECTION (轻量 vs 完整流程)**:
+    - **Lightweight (直接做)** — 单文件编辑、措辞修改、文档更新、已明确的格式调整。直接执行，完成后一次性报告。不写计划、不分步通知、不做冗余验证。
+    - **Full (计划→确认→执行→验证)** — 涉及架构变更、新脚本/工具创建、不可逆操作、多组件联动。写实现计划等用户确认，脚本必须跑通验证。
+    - **判断信号**: ≤3 个文件 + 无副作用 + 用户指令明确 → Lightweight。其余 → Full。
+    - **Iron rule**: IDE 工具提供的流程（task_boundary, plan artifact 等）是可选辅助，不是强制仪式。**流程服务于产出，不是产出服务于流程。**
+- **TOOL-FIRST THINKING (工具优先思维)**:
+    - 执行任务前，先盘点可用工具：IDE 内置工具、已有脚本 (`_ai_evolution/scripts/`)、外部 CLI、subagent。
+    - 苦力活（搜索、批量读文件、格式转换）交给脚本或低成本模型，自己只做判断和推理。(详见 `AI-11: Cognitive Layering`)
+    - 必要时考虑真正的 subagent 或多 agent 分工。
+- **SEARCH-BEFORE-BUILD (找轮子优先于造轮子)**:
+    - 造工具/写脚本前，先搜索现成方案。高价值信息源优先：GitHub → HuggingFace → 官方文档 → 技术博客 → 通用搜索。
+    - 交给工具粗筛（`search.py --site github.com`），自己判断价值和真伪。
+    - 找到 80 分轮子就用，不为 100 分从头造。
 
 ## 5. DEBUGGING & SAFETY (调试与安全)
 

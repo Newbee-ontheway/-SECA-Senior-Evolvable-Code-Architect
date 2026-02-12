@@ -59,7 +59,7 @@
 | 22 | Token 经济学 | AI-07 | Token = 钱 + 注意力，减少轮次比缩短每轮更有效 | [2026-02-11-late-4](./projects/001-textbook/2026-02-11-late-4.md) |
 | 26 | 同源盲区 | AI-03 延伸 | AI 无法有效 Review 自己生成的代码 | [2026-02-12-pm-3](./projects/001-textbook/2026-02-12-pm-3.md) |
 | 29 | Manager-Worker Review | AI-08 | 异构模型并联 + 强模型整合 = 有效 Review 架构 | [同上](./projects/001-textbook/2026-02-12-pm-3.md) |
-| 30 | 概率插值器 | AI-03 延伸 | AI 在训练数据空间内插值，不能跳出训练分布 | [2026-02-12-pm-4](./projects/001-textbook/2026-02-12-pm-4.md) |
+| 30 | 组合创新器 | AI-03 延伸 | AI 能组合创新，不能跳出训练分布做根本突破 | [2026-02-12-pm-4](./projects/001-textbook/2026-02-12-pm-4.md) |
 | 31 | 世界模型进展 | — | 多模态≠世界模型，但领域世界模型已实质进展 | [同上](./projects/001-textbook/2026-02-12-pm-4.md) |
 | 32 | Production Cost Paradox | AI-09 | AI 提速但增加协调/审阅/决策成本，总负荷更高 | [2026-02-13-am-1](./projects/001-textbook/2026-02-13-am-1.md) |
 | 33 | Review Fatigue | AI-03 延伸 | 审阅 AI 代码比自己写更耗认知，创造 > 审阅 | [同上](./projects/001-textbook/2026-02-13-am-1.md) |

@@ -29,6 +29,7 @@ Full evidence chains and reasoning are in `lessons_detail/` (load on demand).
 6. **Skills scattered** — Same type of file in one place. Don't assume fixed skill paths across projects. [standalone]
 7. **External install pollution** — npx installs to shared dirs. Copy what you need, don't delete others' dirs. [standalone]
 8. **Skills bloat** — Fewer is better. Review manually. Priority: update > create > install. [ABSORBED: SKILL MANAGEMENT]
+9. **Workflow ceremony overhead** — IDE 提供的流程工具（plan artifact, task_boundary, 逐步通知）是可选辅助，不是强制仪式。小任务套完整流程 = token 浪费 + 用户等待。[ABSORBED: WORKFLOW MODE SELECTION]
 
 ## Evidence/Reasoning Chain Format
 

@@ -63,5 +63,7 @@ if __name__ == "__main__":
         print(f"⚠️  {len(warnings)} files exceed {threshold} lines:")
         for path, lines in warnings:
             print(f"   {path}: {lines} lines")
+        sys.exit(1)
     else:
         print(f"✅ All {checked} files within {threshold} line threshold.")
+
