@@ -19,6 +19,24 @@ It is designed to be portable across projects.
 
 ## Skills
 
+### 0. Web Content Reading (Tool Selection)
+
+- **Context**: When user provides a URL or you need to read web content, choose the right tool.
+
+| Condition                              | Tool                                | Why                                              |
+| -------------------------------------- | ----------------------------------- | ------------------------------------------------ |
+| No URL yet, need to find articles      | `search_web`                        | Fast, returns summaries + links                  |
+| URL is a blog post / docs / article    | `read_url_content`                  | Fast, no JS needed, converts HTML to markdown    |
+| URL is GitHub (github.com/...)         | `read_url_content` with **raw URL** | Replace `github.com/.../blob/main/` with `raw.githubusercontent.com/.../main/` |
+| URL is a JS-heavy app (SPA, dashboard) | `browser_subagent`                  | Last resort, slow but can execute JS             |
+| URL requires login or interaction      | `browser_subagent`                  | Only tool that can handle auth flows             |
+| Not sure which to use                  | Try `read_url_content` first        | If it fails, fall back to `browser_subagent`     |
+
+- **Default strategy**: `read_url_content` first → `browser_subagent` as fallback
+- **Never** use `browser_subagent` for plain text content — it wastes resources
+
+---
+
 ### 1. Structure Verification Script
 
 - **Context**: Projects with many relative path references in docs need validation that all links point to real files.

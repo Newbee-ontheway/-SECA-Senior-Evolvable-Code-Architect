@@ -6,10 +6,11 @@ Session Note Validator — 确定性校验脚本
 默认: session_notes/projects/001-textbook/
 
 校验内容:
-1. 从所有 pm 文件提取 "## 规则 N" 编号
+1. 从所有 pm/late/am 文件提取 "## 规则 N" 编号
 2. 从 summary 文件提取表格中的规则编号
 3. 对比是否一致（漏了？多了？编号不连续？）
 4. 从 SESSION_INDEX 提取规则范围，验证是否匹配
+5. 检查 heading 格式一致性（## vs ###）
 """
 
 import os
@@ -62,6 +63,7 @@ def validate(project_dir: str):
     # 1. 收集所有 pm 文件中的规则
     pm_files = sorted(project_path.glob("*-pm*.md"))
     pm_files += sorted(project_path.glob("*-late*.md"))
+    pm_files += sorted(project_path.glob("*-am*.md"))
     pm_files = [f for f in pm_files if "summary" not in f.name]
 
     all_pm_rules = {}  # date -> [rule_numbers]
@@ -134,7 +136,16 @@ def validate(project_dir: str):
                         f"❌ SESSION_INDEX {date}: 范围 {start}-{end} 与实际 {actual_start}-{actual_end} 不符"
                     )
 
-    # 5. 输出结果
+    # 5. Heading format check (## vs ###)
+    for f in pm_files:
+        with open(f, "r", encoding="utf-8") as fh:
+            for line_num, line in enumerate(fh, 1):
+                if re.match(r"^###\s+规则\s+\d+", line):
+                    warnings.append(
+                        f"⚠️ {f.name}:{line_num}: 用了 '### 规则' 而非 '## 规则'"
+                    )
+
+    # 6. 输出结果
     print("\n" + "=" * 50)
     if errors:
         print(f"🚨 发现 {len(errors)} 个错误:")

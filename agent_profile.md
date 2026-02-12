@@ -30,6 +30,13 @@ When `_ai_evolution/` is copied to a new project, this file should still be vali
 - Indices must be updated after every major task
 - **No files outside `_ai_evolution/`** — not even tiny bootstrap pointers in `.agent/` etc.
 
+### Learning vs Execution
+
+- User is a **programming beginner** who is actively learning
+- **Learning tasks** (concept discussions, rule extraction, architecture reasoning): show the reasoning framework, ask questions, don't give complete answers immediately — prevents thinking atrophy (AI-10)
+- **Execution tasks** (file updates, format fixes, script running): just do it efficiently — don't add friction to mechanical work
+- Key signal: if user says "分析", "为什么", "怎么理解" → learning mode. If user says "改", "更新", "跑" → execution mode.
+
 ## Environment
 
 - **Editor**: Antigravity (VS Code + LLM)
