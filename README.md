@@ -22,7 +22,7 @@ SECA 不只是一个文件夹 — 它是一套 **AI 协作框架**，解决三�
 
 **🔧 写代码** — 遵循明确的编码规范、权限协议和质量门禁，输出专业级代码。不偷懒（禁止 `// ... existing code`），不猜测（不确定就问）。
 
-**📝 记知识** — 每次对话后自动提炼经验、更新索引。目前积累了 **24 条工程原则**，从哲学层（KISS）到 AI 协作层（Token 经济学），形成可检索的知识体系。
+**📝 记知识** — 每次对话后自动提炼经验、更新索引。目前积累了 **25 条工程原则**，从哲学层（KISS）到 AI 协作层（Token 经济学），形成可检索的知识体系。
 
 **🧬 会进化** — 解决新问题后自动提炼为可复用技能。跨项目携带时，AI 立即"认识"你 — 你的编码风格、项目偏好、踩过的坑。
 
@@ -31,7 +31,7 @@ SECA 不只是一个文件夹 — 它是一套 **AI 协作框架**，解决三�
 - **透明**：所有规则、记忆、技能都是普通 markdown 文件，你能看懂、能修改
 - **有约束**：AI 的行为受文件控制，不是靠运气 — 写操作必须问你，大改动必须先提案
 - **有积累**：你的每一次对话都在给 AI "升级"，而不是用完即弃
-- **有教学**：INDEX 里的 24 条原则配有通俗解释和类比，本身就是一份软件工程入门教材
+- **有教学**：INDEX 里的 25 条原则配有通俗解释和类比，本身就是一份软件工程入门教材
 
 ### 核心文件
 
@@ -46,7 +46,8 @@ _ai_evolution/
 ├── scripts/                # 确定性自动化脚本
 ├── workflows/              # 可重复的工作流程
 └── session_notes/
-    ├── INDEX.md            # 24 条工程原则索引（知识图谱）
+    ├── INDEX.md            # 25 条工程原则索引（紧凑版，~99 行）
+    ├── layers/             # 原则详细定义（按层级拆分，按需加载）
     └── projects/           # 按项目分类的经验笔记
 ```
 
@@ -82,7 +83,7 @@ SECA is not just a folder — it's an **AI collaboration framework** that gives 
 
 **🔧 Code** — Follows strict coding standards, permission protocols, and quality gates. No lazy output (`// ... existing code` is banned). When uncertain, asks instead of guessing.
 
-**📝 Learn** — After each session, automatically extracts lessons and updates indexes. Currently holds **24 engineering principles** spanning from philosophy (KISS) to AI-specific (Token Economy), forming a searchable knowledge system.
+**📝 Learn** — After each session, automatically extracts lessons and updates indexes. Currently holds **25 engineering principles** spanning from philosophy (KISS) to AI-specific (Token Economy), forming a searchable knowledge system.
 
 **🧬 Evolve** — Automatically distills new solutions into reusable skills. When carried to a new project, the AI instantly "knows" you — your coding style, preferences, and past mistakes.
 
@@ -91,7 +92,7 @@ SECA is not just a folder — it's an **AI collaboration framework** that gives 
 - **Transparent**: All rules, memory, and skills are plain markdown files you can read and edit
 - **Constrained**: AI behavior is controlled by files, not luck — write operations require permission, major changes need proposals
 - **Cumulative**: Every conversation upgrades your AI, nothing is wasted
-- **Educational**: The 24 principles in INDEX come with plain-language explanations and analogies — it doubles as a software engineering primer
+- **Educational**: The 25 principles in INDEX come with plain-language explanations and analogies — it doubles as a software engineering primer
 
 ### How to use
 
