@@ -1,6 +1,8 @@
 # SECA — Senior Evolvable Code Architect
 
-> 一个让 AI 助手 **写代码、记经验、会进化** 的开源框架，专为编程初学者设计。
+> 你的 AI 助手每次对话都**失忆**。SECA 让它长出**持久记忆、行为规则和可进化的知识体系**。
+>
+> 纯 markdown，无依赖，跨平台，跨模型。
 
 [中文](#中文) | [English](#english)
 
@@ -8,97 +10,135 @@
 
 ## 中文
 
-### 这是什么？
+### 你可能正在经历这些
 
-SECA 不只是一个文件夹 — 它是一套 **AI 协作框架**，解决三个问题：
+```
+周一: "这个项目用 Typst 写教材，目录结构是……"
+周二: "我昨天跟你说了，项目用 Typst……"
+周三: "……算了，我重新说一遍"
+```
 
-| 问题 | 传统 AI | 有了 SECA |
-|------|--------|----------|
-| 每次对话从零开始 | 你得反复解释项目背景 | AI 自动读取上次状态，秒级恢复 |
-| AI 犯过的错不记住 | 同样的坑踩两遍 | 经验写入 lessons，不再重犯 |
-| 规则全靠口头约定 | 说了不一定听 | 行为规则写进文件，强制执行 |
+- ❌ 每次开新对话，AI 从零开始 — 你变成了**人形 README**
+- ❌ 说好的规则，下次就忘 — "不要动这个文件"说了三次，它还是动了
+- ❌ 踩过的坑，再踩一遍 — 昨天修的 bug 今天换个写法又出现
+- ❌ 换个模型换个工具，一切归零 — 你的"调教成果"锁死在一个平台里
 
-### 三大能力
+### SECA 怎么解决
 
-**🔧 写代码** — 遵循明确的编码规范、权限协议和质量门禁，输出专业级代码。不偷懒（禁止 `// ... existing code`），不猜测（不确定就问）。
+SECA 不是一个 system prompt — 是一个**放在项目里、跟着你走的 AI 操作系统**。
 
-**📝 记知识** — 每次对话后自动提炼经验、更新索引。目前积累了 **25 条工程原则**，从哲学层（KISS）到 AI 协作层（Token 经济学），形成可检索的知识体系。
+| 你的痛 | SECA 方案 | 实现方式 |
+|--------|----------|----------|
+| AI 失忆 | 秒级恢复上次状态 | `last_session.md` — 断点续传 |
+| 说了不听 | 行为规则强制执行 | `role-SECA.md` — 119 行"AI 宪法" |
+| 踩坑轮回 | 犯过的错写进记忆 | `lessons_learned.md` + 38 条工程规则 |
+| 平台锁定 | 纯 markdown，model-agnostic | 复制文件夹 → 任何 AI 秒懂你 |
 
-**🧬 会进化** — 解决新问题后自动提炼为可复用技能。跨项目携带时，AI 立即"认识"你 — 你的编码风格、项目偏好、踩过的坑。
+### 和其他方案的区别
 
-### 为什么适合初学者？
+| | `.cursorrules` / `CLAUDE.md` | 传统 system prompt | **SECA** |
+|--|-----|------|------|
+| 持久记忆 | ❌ | ❌ | ✅ 跨会话、跨项目 |
+| 自动进化 | ❌ 手动维护 | ❌ | ✅ AI 自动提炼经验 |
+| 知识体系 | ❌ 扁平规则 | ❌ | ✅ 28 条原则 + 38 条规则，分层索引 |
+| 确定性验证 | ❌ | ❌ | ✅ 脚本自动检查，不靠 AI 自觉 |
+| 可移植 | 🔒 绑定工具 | 🔒 绑定平台 | ✅ 纯 markdown，任意 LLM |
 
-- **透明**：所有规则、记忆、技能都是普通 markdown 文件，你能看懂、能修改
-- **有约束**：AI 的行为受文件控制，不是靠运气 — 写操作必须问你，大改动必须先提案
-- **有积累**：你的每一次对话都在给 AI "升级"，而不是用完即弃
-- **有教学**：INDEX 里的 25 条原则配有通俗解释和类比，本身就是一份软件工程入门教材
-
-### 核心文件
+### 核心架构
 
 ```
 _ai_evolution/
-├── role-SECA.md            # AI 行为规则（强制执行的"法律"）
-├── last_session.md         # 上次做了什么（断点续传，不上传 Git）
-├── project_context.md      # 项目结构和关键决策
-├── agent_profile.md        # 你的偏好和工作模式
-├── skills.md               # 技能和工具目录
+├── role-SECA.md            # 行为规则 — 119 行"AI 宪法"，5 条绝对法则置顶
+├── last_session.md         # 断点续传 — 不上传 Git，本地专用
+├── project_context.md      # 项目结构 + 关键决策
+├── agent_profile.md        # 你的偏好 + 工作模式
+├── skills.md               # 技能 + 工具目录
 ├── lessons_learned.md      # 踩坑记录
-├── scripts/                # 确定性自动化脚本
-├── workflows/              # 可重复的工作流程
+├── scripts/                # 确定性自动化（脚本 > AI 判断）
+│   ├── validate_sessions.py    # 笔记一致性校验
+│   └── check_file_size.py      # 400 行法则自动检查
+├── workflows/              # 可重复流程（git sync 等）
 └── session_notes/
-    ├── INDEX.md            # 25 条工程原则索引（紧凑版，~99 行）
-    ├── layers/             # 原则详细定义（按层级拆分，按需加载）
+    ├── INDEX.md            # 28 条工程原则（5 层分类，紧凑索引）
+    ├── RULES_CATALOG.md    # 38 条规则按类别总目录
+    ├── layers/             # 原则详细定义（按需加载）
     └── projects/           # 按项目分类的经验笔记
 ```
 
-### 设计哲学
+### 设计原则
 
-- **单一事实来源** — 每条规则只在一个文件中定义，不重复
-- **懒加载** — 启动时只读 3 个文件，按需加载其他内容，节省 Token
-- **确定性优先** — 能用脚本的不用 AI 判断，能用工具的不用子代理
-- **数据有保质期** — 所有外部数据标注采集时间和证据强度
+- **Token 意识** — 启动只读 3 个文件，按需加载，不浪费上下文窗口
+- **确定性优先** — 能用脚本检查的就不靠 AI 自觉。`脚本 > 工具 > MCP > 子代理`
+- **单一真相源** — 每条规则只在一个地方定义，不重复，不矛盾
+- **数据有保质期** — 所有外部信息标注采集时间和证据强度
+- **记忆有容量** — 索引文件 ≤100 条，每 session 最多推 1 条到长期记忆，主动修剪
 
-### 怎么用？
+### 快速开始
 
-1. 把 `_ai_evolution/` 文件夹放到你的项目根目录
-2. 让 AI 在对话开始时读取 `role-SECA.md`
-3. 正常工作 — SECA 会自动在 session 结束时更新索引
-4. 换项目时，复制整个文件夹即可 — AI 马上"认识"你
+```bash
+# 克隆到你的项目
+git clone https://github.com/Newbee-ontheway/-SECA-Senior-Evolvable-Code-Architect.git _ai_evolution
 
-> **注意**: `last_session.md` 不包含在 Git 中（它记录的是你本地的会话状态）。首次使用时 AI 会自动创建它。
+# 在 AI 对话开头说
+"请先读取 _ai_evolution/role-SECA.md，然后读 last_session.md 恢复状态"
+
+# 就这样。AI 会自动在 session 结束时更新索引。
+# 换项目时复制 _ai_evolution/ 文件夹 — AI 马上"认识"你。
+```
+
+> **注意**: `last_session.md` 不包含在 Git 中。首次使用时 AI 会自动创建。
 
 ---
 
 ## English
 
-### What is this?
+### The Problem
 
-SECA is not just a folder — it's an **AI collaboration framework** that gives your AI assistant three abilities:
+Your AI assistant has **amnesia**. Every new conversation starts from zero. Rules you set are forgotten. Mistakes are repeated. Your "trained" AI is locked to one platform.
 
-| Problem | Traditional AI | With SECA |
-|---------|---------------|-----------|
-| Every conversation starts from zero | You re-explain everything | AI reads last session state, resumes instantly |
-| AI repeats the same mistakes | Falls into the same traps | Lessons are recorded, never repeated |
-| Rules are verbal agreements | Sometimes followed, sometimes not | Behavior rules are in files, enforced |
+SECA fixes this. It's not a system prompt — it's a **portable AI operating system** that lives in your project as plain markdown files.
 
-### Three Core Capabilities
+### What SECA Does
 
-**🔧 Code** — Follows strict coding standards, permission protocols, and quality gates. No lazy output (`// ... existing code` is banned). When uncertain, asks instead of guessing.
+| Pain Point | Solution | How |
+|-----------|----------|-----|
+| AI amnesia | Instant session restore | `last_session.md` — checkpoint/resume |
+| Rules ignored | Enforced behavior rules | `role-SECA.md` — 119-line "AI constitution" |
+| Repeated mistakes | Persistent error memory | `lessons_learned.md` + 38 engineering rules |
+| Platform lock-in | Model-agnostic markdown | Copy folder → any LLM knows you instantly |
 
-**📝 Learn** — After each session, automatically extracts lessons and updates indexes. Currently holds **25 engineering principles** spanning from philosophy (KISS) to AI-specific (Token Economy), forming a searchable knowledge system.
+### vs. Alternatives
 
-**🧬 Evolve** — Automatically distills new solutions into reusable skills. When carried to a new project, the AI instantly "knows" you — your coding style, preferences, and past mistakes.
+| | `.cursorrules` / `CLAUDE.md` | System prompts | **SECA** |
+|--|-----|------|------|
+| Persistent memory | ❌ | ❌ | ✅ Cross-session, cross-project |
+| Self-evolution | ❌ Manual | ❌ | ✅ AI auto-extracts lessons |
+| Knowledge system | ❌ Flat rules | ❌ | ✅ 28 principles + 38 rules, layered index |
+| Deterministic checks | ❌ | ❌ | ✅ Scripts verify, not AI self-discipline |
+| Portable | 🔒 Tool-locked | 🔒 Platform-locked | ✅ Pure markdown, any LLM |
 
-### Why is it beginner-friendly?
+### Quick Start
 
-- **Transparent**: All rules, memory, and skills are plain markdown files you can read and edit
-- **Constrained**: AI behavior is controlled by files, not luck — write operations require permission, major changes need proposals
-- **Cumulative**: Every conversation upgrades your AI, nothing is wasted
-- **Educational**: The 25 principles in INDEX come with plain-language explanations and analogies — it doubles as a software engineering primer
+```bash
+git clone https://github.com/Newbee-ontheway/-SECA-Senior-Evolvable-Code-Architect.git _ai_evolution
 
-### How to use
+# Tell your AI at conversation start:
+"Read _ai_evolution/role-SECA.md first, then read last_session.md to restore state"
 
-1. Place `_ai_evolution/` in your project root
-2. Have the AI read `role-SECA.md` at conversation start
-3. Work normally — SECA auto-updates indexes at session end
-4. Moving to a new project? Copy the folder — AI remembers you instantly
+# That's it. SECA auto-updates indexes at session end.
+# Moving projects? Copy the folder — AI remembers you.
+```
+
+---
+
+## Stats
+
+- **28** engineering principles across 5 layers
+- **38** battle-tested rules with source links
+- **119** lines of enforced behavior rules
+- **2** deterministic validation scripts
+- **0** dependencies — pure markdown
+
+## License
+
+MIT
