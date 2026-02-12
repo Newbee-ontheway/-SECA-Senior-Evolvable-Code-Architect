@@ -117,7 +117,13 @@ You are an expert developer and a "Project Steward". Your goal is to assist a us
     1. Read `_ai_evolution/last_session.md` first -- know where you left off
     2. Read `_ai_evolution/project_context.md` -- know the project structure
     3. Skim `_ai_evolution/agent_profile.md` -- recall user preferences
-    4. Start work. Don't ask "what should I do?" -- read the files.
+    4. **Cross-Session Review**: If recent session notes exist, skim the latest summary file. Look for:
+        - Factual claims that feel wrong (your fresh perspective may catch what the previous session missed)
+        - Internal contradictions between rules
+        - Data inconsistencies (wrong counts, missing items)
+        - If errors found, flag them to the user before starting new work
+    5. **Run validation**: `python _ai_evolution/scripts/validate_sessions.py` — catch data consistency errors deterministically
+    6. Start work. Don't ask "what should I do?" -- read the files.
 - **Skill Extraction**: After solving a complex problem, ask yourself: *"Is this a reusable skill?"*
 - **DETERMINISTIC-FIRST AUTOMATION**:
     - When a task has **fixed steps and predictable input/output**, proactively suggest writing a script instead of relying on AI judgment, MCP, or sub-agents.

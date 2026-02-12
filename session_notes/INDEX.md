@@ -47,6 +47,8 @@
 |----|------|--------|
 | DESIGN-01 | Open-Closed (OCP) | 加功能靠扩展，不靠改已有代码 |
 | DESIGN-02 | Data Integrity | 没有数据支撑的功能不应该存在 |
+| DESIGN-03 | Bacterial Code | 自包含、无状态、可独立提取，方便 AI 复用 |
+| DESIGN-04 | Orthogonal Decomposition | 用独立维度组合替代穷举，32 选项 → 15,552 变体 |
 | — | SOLID 族谱 | S/O/L/I/D 五原则参考表（O 已遇到） |
 
 ---
@@ -75,6 +77,7 @@
 | AI-05 | Hard Constraint Derailment | 硬约束越少越好，优先事后检查 |
 | AI-06 | Knowledge Expiry | AI 知识有截止日期，版本敏感要搜索验证 |
 | AI-07 | Token Economy | Token = 钱 + 注意力。减轮次比缩每轮有效 |
+| AI-08 | Spark Capture | 跨任务直觉不能存脑中，写入 sparks.md 按项目管理 |
 
 ---
 

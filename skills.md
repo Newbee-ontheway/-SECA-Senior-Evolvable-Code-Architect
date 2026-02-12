@@ -190,6 +190,14 @@ Reference of useful tools across project types. Evaluated for relevance to SECA 
 | `md_dependency_graph.py` | Cross-reference graph between .md files | `python _ai_evolution/scripts/md_dependency_graph.py [--format mermaid\|json\|csv]` |
 | `verify_structure.py` | Validate broken markdown links | `python _ai_evolution/scripts/verify_structure.py` |
 
+### AI Code Comprehension
+
+| Tool | Purpose | Access |
+|------|---------|--------|
+| **DeepWiki** | AI-powered wiki + Q&A for any GitHub repo | `deepwiki.com` (URL 替换 github→deepwiki) |
+
+> **DeepWiki** 来源: Karpathy 推荐 (2026-02)。支持 MCP 接入。核心用途: 让 AI agent 理解整个代码库后提取特定功能（"Bacterial Code" 模式）。当前评估: 教材项目不急需，编程项目可用。
+
 ### Evaluated: Documentation Coverage
 
 | Tool | Verdict | Notes |
@@ -215,4 +223,3 @@ Install when needed:
 ```bash
 python -m pip install diagrams  # Also needs Graphviz installed
 ```
-
