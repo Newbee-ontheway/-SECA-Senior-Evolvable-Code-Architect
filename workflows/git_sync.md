@@ -40,27 +40,33 @@ git -C <project_root>/_ai_evolution pull
 - If merge conflict occurs: notify user, do NOT auto-resolve
 - If clean merge: proceed to Step 4
 
+4. **Sync README.md** — Check if `README.md` needs updating:
+   - Compare the structure tree in README against actual `_ai_evolution/` directory
+   - Check if "By the Numbers" stats (skills count, scripts count, etc.) match reality
+   - If any new scripts, workflows, configs, or major files were added/removed → update README
+   - If nothing changed → skip, proceed to Step 5
+
 // turbo
-4. Stage all changes:
+5. Stage all changes:
 ```bash
 git -C <project_root>/_ai_evolution add .
 ```
 
 // turbo
-5. Verify what will be committed:
+6. Verify what will be committed:
 ```bash
 git -C <project_root>/_ai_evolution status --short
 ```
 - Confirm `last_session.md` is NOT in the list (excluded by .gitignore)
 - If nothing to commit, stop here
 
-6. Commit with descriptive message:
+7. Commit with descriptive message:
 ```bash
 git -C <project_root>/_ai_evolution commit -m "<session_date>: <brief summary of changes>"
 ```
 - Message format: `2026-02-11: added git workflow, updated skills`
 
-7. Push to remote:
+8. Push to remote:
 ```bash
 git -C <project_root>/_ai_evolution push
 ```

@@ -51,15 +51,23 @@ _ai_evolution/
 ├── last_session.md         # 断点续传 — 本地专用，不上传
 ├── project_context.md      # 项目结构 + 关键决策快照
 ├── agent_profile.md        # 你的偏好和工作节奏
-├── skills.md               # 技能清单 + 工具选型表
+├── skills.md               # 技能清单 + 工具选型表（含 8 项 Skill）
 ├── lessons_learned.md      # 踩坑记录 — 犯一次就够了
+├── configs/
+│   └── feed_sources.yaml       # RSS 源 + 用户偏好（31 源）
 ├── scripts/                # 自动化脚本（脚本 > AI 判断）
+│   ├── rss_fetcher.py          # RSS 抓取器（feedparser + yaml）
+│   ├── search.py               # 批量搜索（ddgs，省 10x token）
 │   ├── validate_sessions.py    # 笔记规则号一致性校验
 │   ├── check_file_size.py      # 400 行法则检查
-│   ├── search.py               # 批量搜索（ddgs，省 10x token）
 │   ├── pre_commit_check.py     # Git 提交前统一检查入口
 │   └── install_hooks.py        # pre-commit hook 一键安装
-├── workflows/              # 可重复工作流（git sync 等）
+├── workflows/              # 可重复工作流（斜杠命令触发）
+│   ├── rss_briefing.md         # /rss_briefing — AI 筛选日报
+│   ├── research.md             # /research — 深度研究 5 步法
+│   ├── git_sync.md             # /git_sync — 安全同步到 GitHub
+│   └── distributed_execution.md # /distributed_execution — 分步执行大任务
+├── readings/               # AI 生成的研究笔记和日报
 └── session_notes/
     ├── INDEX.md            # 29 条工程原则（5 层分类索引）
     ├── RULES_CATALOG.md    # 38+ 条规则按类别总目录
@@ -138,8 +146,11 @@ git clone https://github.com/Newbee-ontheway/-SECA-Senior-Evolvable-Code-Archite
 - **29** engineering principles across 5 layers
 - **38+** battle-tested rules, each traced to a real session
 - **11** AI-specific collaboration principles (context, memory, cognition...)
-- **5** automation scripts (no AI self-discipline required)
-- **0** dependencies — it's just markdown
+- **8** reusable skills (web content, search intent, project discovery...)
+- **6** automation scripts (RSS fetcher, search, validation, git hooks...)
+- **4** slash-command workflows (`/rss_briefing`, `/research`, `/git_sync`, `/distributed_execution`)
+- **31** curated RSS sources across AI, craft, investing, and literature
+- **0** dependencies — it's just markdown + Python
 
 ## License
 
