@@ -1,0 +1,265 @@
+# RSS Feed Sources
+# Edit this file to change which RSS feeds are fetched.
+# Used by: rss_fetcher.py + /rss_briefing workflow
+#
+# Design principle: Cast a wide net at source level,
+# then AI filters ruthlessly based on user_profile below.
+# More sources = broader topics, but output is always ≤7 articles.
+
+name: "Personal Curated Feeds"
+description: "Optimized for engineering craft, architecture, investing, literature, and AI background"
+
+# ── User Profile (for AI filtering in workflow Step 2) ──────────────
+user_profile:
+  max_articles: 7
+  language: "bilingual"  # English content + Chinese translation
+  trigger: "manual"      # /rss_briefing, not cron
+  timeframe: "since_last" # since last briefing, not fixed window
+
+  # ── Slot allocation (7 total) ─────────────────────────────────────
+  # This is the core design decision for every briefing.
+  #
+  #   🧠 Engineering Craft:       2-3 slots  (highest value)
+  #   🏗️ Architecture:            1-2 slots  (tied with personal)
+  #   💰 Investing:               1 slot     (personal interest)
+  #   📖 Literature:              1 slot     (personal interest)
+  #   🤖 AI/Tech Background:      1 slot     (combined summary)
+  #
+  # The AI background slot should COMPRESS multiple AI news items
+  # into a single combined entry — "what you need to know this week."
+  # Do NOT give AI/tech news multiple slots unless something is
+  # genuinely paradigm-shifting.
+
+  interests:
+    - priority: 1
+      topic: "Engineering craft & programming practice"
+      description: "How to think about code, API design, debugging, naming, abstraction. Meta-programming wisdom. The 'aphorisms' of engineering."
+      keywords: [craft, aphorisms, design, abstraction, debugging, naming, patterns, refactoring, architecture]
+      slots: "2-3"
+
+    - priority: 2
+      topic: "System architecture & infrastructure"
+      description: "How large systems are designed, scaled, and operated. Real-world architecture case studies."
+      keywords: [architecture, system-design, scaling, infrastructure, distributed, microservices]
+      slots: "1-2"
+
+    - priority: 2
+      topic: "Personal investing & financial thinking"
+      description: "Value investing, investor psychology, financial independence, portfolio strategy. NOT macro/headlines."
+      keywords: [investing, portfolio, value, compounding, financial-independence, psychology]
+      slots: "1"
+
+    - priority: 2
+      topic: "Literature & essays"
+      description: "Book reviews, literary essays, fiction excerpts, author interviews, writing craft."
+      keywords: [literature, fiction, essay, book-review, writing, poetry, novel]
+      slots: "1"
+
+    - priority: 3
+      topic: "AI & tech background"
+      description: "New model releases, agent ecosystem, AI policy. Background awareness only — combine into ONE entry."
+      keywords: [ai, llm, agent, model, release, policy]
+      slots: "1 (combined)"
+
+    - priority: 3
+      topic: "Knowledge management & personal systems"
+      description: "PKM, note-taking systems, information processing pipelines, second brain."
+      keywords: [PKM, knowledge, notes, zettelkasten, second-brain]
+      slots: "0-1 (only if exceptional)"
+
+    - priority: 3
+      topic: "Education × Technology"
+      description: "Teaching design, content generation, learning theory, EdTech."
+      keywords: [education, teaching, learning, curriculum, pedagogy]
+      slots: "0-1 (only if exceptional)"
+
+  # Topics to deprioritize (still fetch, but rarely select)
+  low_interest:
+    - "Apple ecosystem commentary"
+    - "Frontend framework updates (React, CSS, etc.)"
+    - "Pure hardware teardowns / retro computing"
+    - "US domestic politics deep dives"
+    - "Macro economics / central bank policy"
+    - "Crypto/blockchain speculation"
+    - "Funding news / X raised $Y"
+
+# ── Feed Sources ────────────────────────────────────────────────────
+# Tier 1 (core): Nearly every article is relevant
+# Tier 2 (extended): AI picks the best per briefing
+
+feeds:
+  # ── Tier 1: Core Sources ─────────────────────────────────────────
+
+  # Engineering Craft (P1)
+  - name: "Simon Willison"
+    url: "https://simonwillison.net/atom/everything/"
+    tags: [ai, llm, python, tools]
+    tier: 1
+
+  - name: "matklad"
+    url: "https://matklad.github.io/feed.xml"
+    tags: [rust, ide, architecture, craft]
+    tier: 1
+
+  - name: "antirez"
+    url: "http://antirez.com/rss"
+    tags: [systems, programming, craft, vision]
+    tier: 1
+
+  - name: "Paul Graham"
+    url: "http://www.aaronsw.com/2002/feeds/pgessays.rss"
+    tags: [essays, thinking, craft]
+    tier: 1
+
+  # Deep Thinking
+  - name: "Gwern"
+    url: "https://gwern.substack.com/feed"
+    tags: [ai, research, analysis, statistics]
+    tier: 1
+
+  - name: "Mitchell Hashimoto"
+    url: "https://mitchellh.com/feed.xml"
+    tags: [ai, devtools, agent-engineering, craft]
+    tier: 1
+
+  # Knowledge Management
+  - name: "Forte Labs"
+    url: "https://fortelabs.com/feed/"
+    tags: [pkm, second-brain, productivity, knowledge]
+    tier: 1
+
+  # ── Tier 2: Extended Sources ─────────────────────────────────────
+
+  # Engineering Craft (Extended)
+  - name: "Julia Evans"
+    url: "https://jvns.ca/atom.xml"
+    tags: [programming, debugging, learning, craft]
+    tier: 2
+
+  - name: "Hillel Wayne"
+    url: "https://buttondown.com/hillelwayne/rss"
+    tags: [formal-methods, software-engineering, craft]
+    tier: 2
+
+  - name: "Eli Bendersky"
+    url: "https://eli.thegreenplace.net/feeds/all.atom.xml"
+    tags: [go, python, compilers, craft]
+    tier: 2
+
+  - name: "Refactoring English"
+    url: "https://refactoringenglish.com/index.xml"
+    tags: [writing, communication, craft]
+    tier: 2
+
+  - name: "Sean Goedecke"
+    url: "https://www.seangoedecke.com/rss.xml"
+    tags: [engineering-culture, big-tech, craft]
+    tier: 2
+
+  # Architecture & Systems
+  - name: "ByteByteGo"
+    url: "https://blog.bytebytego.com/feed"
+    tags: [system-design, architecture, diagrams]
+    tier: 2
+
+  # AI (Extended — for background slot)
+  - name: "Latent Space"
+    url: "https://www.latent.space/feed"
+    tags: [ai, agent-engineering, infra, interviews]
+    tier: 2
+
+  - name: "Import AI"
+    url: "https://importai.substack.com/feed"
+    tags: [ai, research, policy, analysis]
+    tier: 2
+
+  - name: "Gary Marcus"
+    url: "https://garymarcus.substack.com/feed"
+    tags: [ai-critique, cognitive-science]
+    tier: 2
+
+  - name: "Dwarkesh Patel"
+    url: "https://www.dwarkeshpatel.com/feed"
+    tags: [ai, interviews, deep-conversations]
+    tier: 2
+
+  - name: "Max Woolf"
+    url: "https://minimaxir.com/index.xml"
+    tags: [ai, data-science, benchmarks]
+    tier: 2
+
+  # Thinking & Culture
+  - name: "dynomight"
+    url: "https://dynomight.net/feed.xml"
+    tags: [science, analysis, thinking]
+    tier: 2
+
+  - name: "Experimental History"
+    url: "https://www.experimental-history.com/feed"
+    tags: [psychology, science, culture]
+    tier: 2
+
+  - name: "Geoffrey Litt"
+    url: "https://www.geoffreylitt.com/feed.xml"
+    tags: [end-user-programming, tools-for-thought]
+    tier: 2
+
+  # Policy & Security
+  - name: "lcamtuf"
+    url: "https://lcamtuf.substack.com/feed"
+    tags: [security, systems, craft]
+    tier: 2
+
+  - name: "Pluralistic"
+    url: "https://pluralistic.net/feed/"
+    tags: [tech-policy, privacy, economics]
+    tier: 2
+
+  - name: "Brian Krebs"
+    url: "https://krebsonsecurity.com/feed/"
+    tags: [security, investigation]
+    tier: 2
+
+  # Startups & Strategy
+  - name: "Steve Blank"
+    url: "https://steveblank.com/feed/"
+    tags: [startups, entrepreneurship, strategy]
+    tier: 2
+
+  # ── Personal Investing ───────────────────────────────────────────
+  - name: "A Wealth of Common Sense"
+    url: "https://awealthofcommonsense.com/feed/"
+    tags: [investing, psychology, wealth, personal-finance]
+    tier: 2
+    note: "Ben Carlson (CFA). Investor psychology, market history. No hype."
+
+  - name: "Morgan Housel"
+    url: "https://morganhousel.substack.com/feed"
+    tags: [investing, thinking, psychology, essays]
+    tier: 2
+    note: "Psychology of Money author. Investing meets philosophy."
+
+  - name: "Of Dollars and Data"
+    url: "https://ofdollarsanddata.com/feed/"
+    tags: [investing, data-analysis, personal-finance]
+    tier: 2
+    note: "Nick Maggiulli. Data-driven personal finance. Just Keep Buying author."
+
+  # ── Literature & Essays ──────────────────────────────────────────
+  - name: "Literary Hub"
+    url: "https://lithub.com/feed/"
+    tags: [literature, fiction, essays, book-reviews, culture]
+    tier: 2
+    note: "Central hub for literary culture. High volume — AI must be selective."
+
+  - name: "The Paris Review"
+    url: "https://www.theparisreview.org/blog/feed/"
+    tags: [literature, fiction, interviews, writing-craft]
+    tier: 2
+    note: "Gold standard literary magazine since 1953."
+
+  - name: "London Review of Books"
+    url: "https://www.lrb.co.uk/feeds/rss"
+    tags: [literature, essays, reviews, philosophy, culture]
+    tier: 2
+    note: "Extraordinarily in-depth long-form book/culture essays."

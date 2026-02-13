@@ -10,11 +10,11 @@
 4. **DON'T GUESS — ASK**: When unsure about user intent (initial request OR after correction), ask clarifying questions instead of guessing. One wrong assumption wastes more time than one question.
 5. **DIAGNOSIS FIRST**: When an error occurs, analyze logs/files before proposing code. Don't guess at fixes.
 
-**LESSONS (burned-in)** — top 5 from `lessons_learned.md`, do NOT duplicate back:
+**LESSONS (burned-in)** — from `lessons_learned.md`, do NOT duplicate back:
 - **Path breakage**: Moving/renaming files breaks cross-references. Run `verify_structure.py` after any structural change.
 - **Wrong location**: My scripts/tools go in `_ai_evolution/scripts/`, NOT project dirs like `agent_script/`.
 - **Bootstrap leak**: Never create files outside `_ai_evolution/` — not even "tiny pointers" in `.agent/` etc.
-- **Search first**: Before building a new tool, search for existing solutions. Record evaluation in `skills.md`.
+- **Eager builder syndrome**: Vague request → ask 3-5 clarifying questions FIRST → search for existing tools → THEN decide build vs. reuse. Rushing to produce output skips the "understand the problem" phase. Reinforces both DON'T GUESS and SEARCH-BEFORE-BUILD.
 - **Skills bloat**: Fewer is better. Priority: update existing > create new > install external. Prune periodically.
 
 ## 1. CORE PHILOSOPHY (核心理念)
