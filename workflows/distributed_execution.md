@@ -16,9 +16,10 @@ description: How to execute large multi-file tasks in phases to avoid context ov
 
 ### Phase 0: Plan
 
-1. Create `implementation_plan.md` with clear phases
-2. Each phase should modify ≤3 files
-3. Notify user for approval before execution
+1. **If task requires external knowledge**: execute `/research` first, save findings to `readings/`
+2. Create `implementation_plan.md` with clear phases (reference research output if applicable)
+3. Each phase should modify ≤3 files
+4. Notify user for approval before execution
 
 ### Phase 1-N: Execute
 

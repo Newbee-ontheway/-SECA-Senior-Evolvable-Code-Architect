@@ -19,21 +19,41 @@ It is designed to be portable across projects.
 
 ## Skills
 
-### 0. Web Content Reading (Tool Selection)
+### 0. Search & Tool Selection (搜索与工具选择)
 
-- **Context**: When user provides a URL or you need to read web content, choose the right tool.
+- **Context**: When user asks to search, research, or read web content. This is a **3-step pipeline**.
 
-| Condition                              | Tool                                | Why                                              |
-| -------------------------------------- | ----------------------------------- | ------------------------------------------------ |
-| No URL yet, need to find articles      | `search_web`                        | Fast, returns summaries + links                  |
-| URL is a blog post / docs / article    | `read_url_content`                  | Fast, no JS needed, converts HTML to markdown    |
-| URL is GitHub (github.com/...)         | `read_url_content` with **raw URL** | Replace `github.com/.../blob/main/` with `raw.githubusercontent.com/.../main/` |
-| URL is a JS-heavy app (SPA, dashboard) | `browser_subagent`                  | Last resort, slow but can execute JS             |
-| URL requires login or interaction      | `browser_subagent`                  | Only tool that can handle auth flows             |
-| Not sure which to use                  | Try `read_url_content` first        | If it fails, fall back to `browser_subagent`     |
+#### Step 1: Intent Classification (意图分类)
 
-- **Default strategy**: `read_url_content` first → `browser_subagent` as fallback
-- **Never** use `browser_subagent` for plain text content — it wastes resources
+Classify what the user needs **before** choosing tools. If ambiguous, ask: "快速回答、全面对比、还是深入研究?"
+
+| User Says (Pattern) | Intent Type | Action |
+|---|---|---|
+| "这个是什么？" / "X 怎么用？" / factual question | **Quick Answer** | `search_web` → read top 1-2 results → answer inline. No file saved. |
+| "最佳实践？" / "别人怎么做的？" / "有什么好的 X？" | **Landscape Scan** | 3 search queries → read 3-5 articles → summarize with tradeoffs. Save to `readings/` if substantial. |
+| "A 和 B 哪个好？" / "对比一下" | **Comparison** | Parallel searches → structured comparison table (features, pros, cons). |
+| "我之前写过..." / "在哪个笔记里提过 X？" | **Local Recall** | `grep_search` / `find_by_name`. **No web search.** |
+| "帮我深入研究 X" / explicit "research" | **Deep Research** | → Step 3 below. |
+
+#### Step 2: Tool Selection (工具选择)
+
+After classifying intent, pick the right tool:
+
+| Condition | Tool | Why |
+|---|---|---|
+| No URL, need to find articles | `search_web` | Fast, returns summaries + links |
+| URL is blog/docs/article | `read_url_content` | Fast, no JS needed |
+| URL is GitHub | `read_url_content` with **raw URL** | Replace `github.com/.../blob/main/` → `raw.githubusercontent.com/.../main/` |
+| JS-heavy app (SPA, dashboard) | `browser_subagent` | Last resort, slow |
+| Requires login or interaction | `browser_subagent` | Only tool with auth |
+| Not sure | `read_url_content` first | Fall back to `browser_subagent` |
+
+- **Default**: `read_url_content` first → `browser_subagent` as fallback
+- **Never** use `browser_subagent` for plain text — wastes resources
+
+#### Step 3: Deep Research Handoff
+
+If intent = Deep Research → follow `/research` workflow (`_ai_evolution/workflows/research.md`).
 
 ---
 
@@ -156,25 +176,6 @@ python _ai_evolution/scripts/verify_structure.py
 ```
 
 - **Installed Skills**: See `_ai_evolution/skills/` directory for individual SKILL.md files.
-
----
-
-### 8. Search Intent Clarification
-
-- **Context**: When user asks you to "look something up", "research X", or "find out about Y", **classify intent first**. Don't jump straight into searching.
-- **Rule**: If intent is ambiguous, **ask the user** — show them the types below and let them pick. Don't guess.
-- **Decision Tree**:
-
-| User Says (Pattern) | Intent Type | Action |
-|---|---|---|
-| "这个是什么？" / "X 怎么用？" / factual question | **Quick Answer** | `search_web` → read top 1-2 results via `read_url_content` → answer inline. No file saved. |
-| "最佳实践？" / "别人怎么做的？" / "有什么好的 X？" | **Landscape Scan** | 3 different search queries → read 3-5 articles → summarize options **with tradeoffs**. Save to `readings/` if substantial. |
-| "A 和 B 哪个好？" / "对比一下" | **Comparison** | Parallel searches for A and B → structured comparison table (features, pros, cons, use cases). |
-| "我之前写过..." / "在哪个笔记里提过 X？" | **Local Recall** | `grep_search` / `find_by_name` across project dirs. **No web search needed.** |
-| "帮我深入研究 X" / explicit "research" | **Deep Research** | Follow `/research` workflow (see `_ai_evolution/workflows/research.md`). |
-
-- **Key Principle**: The user often doesn't know which type they need. If they say something vague like "查一下 X", proactively offer: "你想要快速回答, 还是全面对比, 还是深入研究?" — this 5-second clarification saves minutes of wrong-direction work.
-- **Upstream of Skill #0**: This skill (intent classification) runs BEFORE Skill #0 (tool selection). First decide *what* to do, then decide *which tool* to use.
 
 ---
 

@@ -3,7 +3,7 @@
 This file stores high-level architectural decisions and domain knowledge.
 It ensures that the AI understands the "Big Picture" even after memory resets.
 
-**Last Updated**: 2026-02-10
+**Last Updated**: 2026-02-13
 
 ## 1. Project Overview
 
@@ -62,11 +62,31 @@ Generate unit → AI proposes new skill → User approves → Save to library
 |------|------|---------|
 | Structure Validator | `_ai_evolution/scripts/verify_structure.py` | Check broken markdown links |
 | Dependency Graph | `_ai_evolution/scripts/md_dependency_graph.py` | Visualize .md cross-references |
-| Skills Library | `_ai_evolution/skills.md` | Skill catalog + tool reference |
+| Session Bootstrap | `_ai_evolution/scripts/session_bootstrap.py` | Compressed startup context (~800 tokens) |
+| Index Checker | `_ai_evolution/scripts/index_check.py` | Index consistency & freshness check |
+| Local Search | `_ai_evolution/scripts/local_search.py` | BM25 full-text search over markdown files (tantivy) |
+| Batch Search | `_ai_evolution/scripts/search.py` | DuckDuckGo batch search (compact output) |
+| RSS Fetcher | `_ai_evolution/scripts/rss_fetcher.py` | Fetch RSS feeds as JSON |
+| Pre-commit Check | `_ai_evolution/scripts/pre_commit_check.py` | 3-item pre-commit validation |
+| File Size Check | `_ai_evolution/scripts/check_file_size.py` | 400-line threshold enforcement |
+| Hook Installer | `_ai_evolution/scripts/install_hooks.py` | One-click git hook setup |
+| Session Validator | `_ai_evolution/scripts/validate_sessions.py` | Session notes integrity check |
+| Skills Library | `_ai_evolution/skills.md` | Skill catalog (8 skills) + tool reference |
 | Agent Profile | `_ai_evolution/agent_profile.md` | Cross-project user preferences |
 | Session Handoff | `_ai_evolution/last_session.md` | Resume from where I left off |
 | Lessons Learned | `_ai_evolution/lessons_learned.md` | Operational error log |
 | Installed Skills | `_ai_evolution/skills/` | External agent skills |
+
+### Workflows (in `_ai_evolution/workflows/`)
+
+| Workflow | Trigger | Purpose |
+|----------|---------|--------|
+| `/distributed_execution` | Manual | Large tasks in phases (≤3 files/phase) |
+| `/research` | Manual / Skill #0 | Deep research: decompose→search→synthesize |
+| `/rss_briefing` | Manual | Daily RSS briefing with AI selection |
+| `/git_sync` | Manual (user request only) | Safe git commit+push flow |
+| `/session_end` | Manual (session end) | Cleanup: update last_session, remind git sync |
+| `/search_before_build` | Auto (before building any tool/script) | Search local → external → build with justification |
 
 ## 4. Key Project Paths
 
