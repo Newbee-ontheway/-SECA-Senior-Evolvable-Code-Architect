@@ -159,6 +159,25 @@ python _ai_evolution/scripts/verify_structure.py
 
 ---
 
+### 8. Search Intent Clarification
+
+- **Context**: When user asks you to "look something up", "research X", or "find out about Y", **classify intent first**. Don't jump straight into searching.
+- **Rule**: If intent is ambiguous, **ask the user** — show them the types below and let them pick. Don't guess.
+- **Decision Tree**:
+
+| User Says (Pattern) | Intent Type | Action |
+|---|---|---|
+| "这个是什么？" / "X 怎么用？" / factual question | **Quick Answer** | `search_web` → read top 1-2 results via `read_url_content` → answer inline. No file saved. |
+| "最佳实践？" / "别人怎么做的？" / "有什么好的 X？" | **Landscape Scan** | 3 different search queries → read 3-5 articles → summarize options **with tradeoffs**. Save to `readings/` if substantial. |
+| "A 和 B 哪个好？" / "对比一下" | **Comparison** | Parallel searches for A and B → structured comparison table (features, pros, cons, use cases). |
+| "我之前写过..." / "在哪个笔记里提过 X？" | **Local Recall** | `grep_search` / `find_by_name` across project dirs. **No web search needed.** |
+| "帮我深入研究 X" / explicit "research" | **Deep Research** | Follow `/research` workflow (see `_ai_evolution/workflows/research.md`). |
+
+- **Key Principle**: The user often doesn't know which type they need. If they say something vague like "查一下 X", proactively offer: "你想要快速回答, 还是全面对比, 还是深入研究?" — this 5-second clarification saves minutes of wrong-direction work.
+- **Upstream of Skill #0**: This skill (intent classification) runs BEFORE Skill #0 (tool selection). First decide *what* to do, then decide *which tool* to use.
+
+---
+
 ## Tool Catalog
 
 Reference of useful tools across project types. Evaluated for relevance to SECA work.
